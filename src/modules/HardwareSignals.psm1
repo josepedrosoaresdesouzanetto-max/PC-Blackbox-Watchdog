@@ -13,7 +13,7 @@ function Get-TemperatureSignals {
         }
     }
     catch {
-        $messages += "Sensor de temperatura nao disponivel pelo Windows. Use HWiNFO, LibreHardwareMonitor ou ferramenta da placa-mae para confirmar temperatura."
+        $messages += "Sensor de temperatura não disponível pelo Windows. Use HWiNFO, LibreHardwareMonitor ou ferramenta da placa-mãe para confirmar temperatura."
     }
 
     [ordered]@{
@@ -21,7 +21,7 @@ function Get-TemperatureSignals {
         gpu_temp_celsius = $null
         disk_temp_celsius = $null
         sensor_messages = $messages
-        optional_integrations = "HWiNFO/LibreHardwareMonitor nao sao obrigatorios; se instalados, confirme temperaturas por eles."
+        optional_integrations = "HWiNFO/LibreHardwareMonitor não são obrigatórios; se instalados, confirme temperaturas por eles."
     }
 }
 

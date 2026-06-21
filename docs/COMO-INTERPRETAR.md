@@ -1,24 +1,24 @@
 # Como interpretar
 
-## Evidencia, suspeita e hipotese
+## Evidência, suspeita e hipótese
 
-- Evidencia: algo registrado em log, amostra ou evento.
-- Suspeita: interpretacao baseada em padrao conhecido.
-- Hipotese: explicacao provavel, mas nao definitiva.
+- Evidência: algo registrado em log, amostra ou evento.
+- Suspeita: interpretação baseada em padrão conhecido.
+- Hipótese: explicação provável, mas não definitiva.
 
-## Confianca
+## Confiança
 
-- 80-100%: evidencia forte, como WHEA 18 ou BugCheck com dump.
-- 55-79%: evidencia media, como Display 4101, disk errors ou Kernel-Power com contexto.
+- 80-100%: evidência forte, como WHEA 18 ou BugCheck com dump.
+- 55-79%: evidência média, como Display 4101, erros de disco ou Kernel-Power com contexto.
 - abaixo de 55%: dados insuficientes.
 
 ## Risco
 
 - baixo: observar.
-- medio: investigar e coletar mais dados.
+- médio: investigar e coletar mais dados.
 - alto: salvar trabalho, fazer backup e testar componente.
-- critico: risco de queda, BSOD ou perda de dados.
+- crítico: risco de queda, BSOD ou perda de dados.
 
-## Relatorio parcial vs pos-boot
+## Relatório parcial vs pós-boot
 
-O parcial e salvo quando o Windows ainda esta vivo e detecta alerta. O pos-boot e gerado depois que o PC liga novamente, cruzando o que havia antes com os eventos novos.
+O parcial é salvo quando o Windows ainda está vivo e detecta alerta. O pós-boot é gerado depois que o PC liga novamente, cruzando o que havia antes com os eventos novos.

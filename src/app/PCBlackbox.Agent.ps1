@@ -36,7 +36,7 @@ function Test-AgentLock {
 }
 
 if (-not (Test-AgentLock)) {
-    Write-LogSafe -Path $errorLog -Level "WARN" -Message "Outra instancia do agente parece estar em execucao. Encerrando esta instancia."
+    Write-LogSafe -Path $errorLog -Level "WARN" -Message "Outra instância do agente parece estar em execução. Encerrando esta instância."
     exit 0
 }
 
@@ -75,7 +75,7 @@ function Write-SilentTemperatureAlert {
             AlertType = "temperatura"
             RiskLevel = "silencioso"
             Title = "PC Blackbox: temperatura alta em modo gamer"
-            Message = "Temperatura alta registrada sem popup/beep porque modo gamer esta ativo."
+            Message = "Temperatura alta registrada sem popup/beep porque o modo gamer está ativo."
             Device = $Device
             TemperatureCelsius = $Temperature
             ThresholdCelsius = $Threshold
@@ -127,7 +127,7 @@ try {
                     Write-SilentTemperatureAlert -Root $Root -Device "CPU" -Temperature ([double]$temps.cpu_temp_celsius) -Threshold ([double]$config.cpu_temp_critical_celsius) -Sample $sample -Config $config
                 }
                 else {
-                    Invoke-UrgentAlert -Root $Root -AlertType "temperatura" -RiskLevel "critico" -Title "PC Blackbox: temperatura CPU critica" -Message "ALERTA CRITICO: temperatura muito alta detectada. O PC pode desligar para se proteger. Feche jogos ou programas pesados agora e verifique a refrigeracao." -Evidence ("CPU temp: {0} C" -f $temps.cpu_temp_celsius) -Recommendation "Salve seu trabalho, reduza carga e verifique refrigeracao." -Source "HardwareSignals" -EventId 9501 -LastSample $sample | Out-Null
+                    Invoke-UrgentAlert -Root $Root -AlertType "temperatura" -RiskLevel "critico" -Title "PC Blackbox: temperatura crítica da CPU" -Message "ALERTA CRÍTICO: temperatura muito alta detectada. O PC pode desligar para se proteger. Feche jogos ou programas pesados agora e verifique a refrigeração." -Evidence ("CPU temp: {0} C" -f $temps.cpu_temp_celsius) -Recommendation "Salve seu trabalho, reduza a carga e verifique a refrigeração." -Source "HardwareSignals" -EventId 9501 -LastSample $sample | Out-Null
                 }
             }
             if ($temps.gpu_temp_celsius -and $temps.gpu_temp_celsius -ge [double]$config.gpu_temp_critical_celsius) {
@@ -136,14 +136,14 @@ try {
                     Write-SilentTemperatureAlert -Root $Root -Device "GPU" -Temperature ([double]$temps.gpu_temp_celsius) -Threshold ([double]$config.gpu_temp_critical_celsius) -Sample $sample -Config $config
                 }
                 else {
-                    Invoke-UrgentAlert -Root $Root -AlertType "temperatura" -RiskLevel "critico" -Title "PC Blackbox: temperatura GPU critica" -Message "ALERTA CRITICO: temperatura da GPU muito alta detectada. Se nao estiver jogando ou renderizando, investigue driver, ventoinhas e fluxo de ar." -Evidence ("GPU temp: {0} C" -f $temps.gpu_temp_celsius) -Recommendation "Salve seu trabalho, reduza carga e verifique refrigeracao/driver de video." -Source "HardwareSignals" -EventId 9504 -LastSample $sample | Out-Null
+                    Invoke-UrgentAlert -Root $Root -AlertType "temperatura" -RiskLevel "critico" -Title "PC Blackbox: temperatura crítica da GPU" -Message "ALERTA CRÍTICO: temperatura da GPU muito alta detectada. Se não estiver jogando ou renderizando, investigue driver, ventoinhas e fluxo de ar." -Evidence ("GPU temp: {0} C" -f $temps.gpu_temp_celsius) -Recommendation "Salve seu trabalho, reduza a carga e verifique refrigeração/driver de vídeo." -Source "HardwareSignals" -EventId 9504 -LastSample $sample | Out-Null
                 }
             }
             if ($sample.cpu_total_percent -and $sample.cpu_total_percent -ge [double]$config.cpu_alert_percent) {
-                Invoke-UrgentAlert -Root $Root -AlertType "recurso" -RiskLevel "alto" -Title "PC Blackbox: CPU muito alta" -Message "CPU acima do limite configurado. Salve seu trabalho e veja os processos no relatorio." -Evidence ("CPU: {0}%" -f $sample.cpu_total_percent) -Recommendation "Feche programas pesados e observe se ha travamento." -Source "Collectors" -EventId 9502 -LastSample $sample | Out-Null
+                Invoke-UrgentAlert -Root $Root -AlertType "recurso" -RiskLevel "alto" -Title "PC Blackbox: CPU muito alta" -Message "CPU acima do limite configurado. Salve seu trabalho e veja os processos no relatório." -Evidence ("CPU: {0}%" -f $sample.cpu_total_percent) -Recommendation "Feche programas pesados e observe se há travamento." -Source "Collectors" -EventId 9502 -LastSample $sample | Out-Null
             }
             if ($sample.ram_used_percent -and $sample.ram_used_percent -ge [double]$config.ram_alert_percent) {
-                Invoke-UrgentAlert -Root $Root -AlertType "recurso" -RiskLevel "alto" -Title "PC Blackbox: RAM muito alta" -Message "RAM acima do limite configurado. Salve seu trabalho e veja os processos no relatorio." -Evidence ("RAM: {0}%" -f $sample.ram_used_percent) -Recommendation "Feche programas pesados e observe se ha travamento." -Source "Collectors" -EventId 9503 -LastSample $sample | Out-Null
+                Invoke-UrgentAlert -Root $Root -AlertType "recurso" -RiskLevel "alto" -Title "PC Blackbox: RAM muito alta" -Message "RAM acima do limite configurado. Salve seu trabalho e veja os processos no relatório." -Evidence ("RAM: {0}%" -f $sample.ram_used_percent) -Recommendation "Feche programas pesados e observe se há travamento." -Source "Collectors" -EventId 9503 -LastSample $sample | Out-Null
             }
 
             Remove-OldBlackboxLogs -Root $Root -Days ([int]$config.max_days_to_keep_logs)

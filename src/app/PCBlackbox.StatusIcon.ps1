@@ -57,7 +57,7 @@ function Get-HeartbeatStatus {
         return [pscustomobject]@{
             Level = "red"
             Title = "PC-Blackbox parado"
-            Message = "heartbeat.json ainda nao existe."
+            Message = "heartbeat.json ainda não existe."
             AgeSeconds = $null
             HeartbeatPath = $heartbeatPath
             Tasks = $taskRows
@@ -79,17 +79,17 @@ function Get-HeartbeatStatus {
         if ($age -le 180) {
             $level = "green"
             $title = "PC-Blackbox funcionando"
-            $message = "Ultimo heartbeat ha $age segundos."
+            $message = "Último heartbeat há $age segundos."
         }
         elseif ($age -le 600) {
             $level = "yellow"
             $title = "PC-Blackbox atrasado"
-            $message = "Ultimo heartbeat ha $age segundos. Pode estar iniciando, ocupado ou parado ha pouco tempo."
+            $message = "Último heartbeat há $age segundos. Pode estar iniciando, ocupado ou parado há pouco tempo."
         }
         else {
             $level = "red"
             $title = "PC-Blackbox sem heartbeat recente"
-            $message = "Ultimo heartbeat ha $age segundos. O agente pode nao estar rodando."
+            $message = "Último heartbeat há $age segundos. O agente pode não estar rodando."
         }
 
         return [pscustomobject]@{
@@ -105,7 +105,7 @@ function Get-HeartbeatStatus {
         return [pscustomobject]@{
             Level = "red"
             Title = "PC-Blackbox com leitura falhando"
-            Message = "Nao consegui ler o heartbeat: $($_.Exception.Message)"
+            Message = "Não consegui ler o heartbeat: $($_.Exception.Message)"
             AgeSeconds = $null
             HeartbeatPath = $heartbeatPath
             Tasks = $taskRows
@@ -283,7 +283,7 @@ function Show-StatusWindow {
     $scope.Width = 555
     $scope.Height = 44
     $scope.Font = New-Object System.Drawing.Font("Segoe UI", 9)
-    $scope.Text = "Ferramenta feita para um problema especifico: investigar desligamento inesperado, travamento, tela azul, LiveKernelEvent, WHEA, falha de GPU/disco e sinais antes de uma queda. Ela nao corrige hardware automaticamente."
+    $scope.Text = "Ferramenta feita para um problema específico: investigar desligamento inesperado, travamento, tela azul, LiveKernelEvent, WHEA, falha de GPU/disco e sinais antes de uma queda. Ela não corrige hardware automaticamente."
     $form.Controls.Add($scope)
 
     $tasks = New-Object System.Windows.Forms.TextBox
@@ -302,7 +302,7 @@ function Show-StatusWindow {
     $openReports.Left = 22
     $openReports.Top = 272
     $openReports.Width = 145
-    $openReports.Text = "Abrir relatorios"
+    $openReports.Text = "Abrir relatórios"
     $openReports.Add_Click({
         $path = Join-Path $Root "reports"
         if (Test-Path $path) { Start-Process explorer.exe $path }
@@ -328,7 +328,7 @@ function Show-StatusWindow {
             [System.Windows.Forms.MessageBox]::Show("Comando enviado para iniciar o agente.", "PC-Blackbox", "OK", "Information") | Out-Null
         }
         catch {
-            [System.Windows.Forms.MessageBox]::Show("Nao consegui iniciar a tarefa. Tente abrir como Administrador.`r`n`r`n$($_.Exception.Message)", "PC-Blackbox", "OK", "Warning") | Out-Null
+            [System.Windows.Forms.MessageBox]::Show("Não consegui iniciar a tarefa. Tente abrir como Administrador.`r`n`r`n$($_.Exception.Message)", "PC-Blackbox", "OK", "Warning") | Out-Null
         }
     })
     $form.Controls.Add($startAgent)
@@ -347,7 +347,7 @@ function Show-StatusWindow {
     $footer.Width = 555
     $footer.Height = 20
     $footer.ForeColor = [System.Drawing.Color]::FromArgb(90, 90, 90)
-    $footer.Text = "PC-Blackbox-Watchdog v1.0 - diagnostico local, sem envio de dados para internet."
+    $footer.Text = "PC-Blackbox-Watchdog v1.0 - diagnóstico local, sem envio de dados para a internet."
     $form.Controls.Add($footer)
 
     $form.ShowDialog() | Out-Null
@@ -362,7 +362,7 @@ $menuStatus.Enabled = $false
 [void]$notify.ContextMenuStrip.Items.Add("-")
 $menuOpen = $notify.ContextMenuStrip.Items.Add("Abrir dashboard")
 $menuRefresh = $notify.ContextMenuStrip.Items.Add("Atualizar agora")
-$menuReports = $notify.ContextMenuStrip.Items.Add("Abrir relatorios")
+$menuReports = $notify.ContextMenuStrip.Items.Add("Abrir relatórios")
 $menuStart = $notify.ContextMenuStrip.Items.Add("Iniciar agente")
 [void]$notify.ContextMenuStrip.Items.Add("-")
 $menuExit = $notify.ContextMenuStrip.Items.Add("Sair do olhinho")
@@ -376,7 +376,7 @@ $menuReports.Add_Click({
 })
 $menuStart.Add_Click({
     try { Start-ScheduledTask -TaskName "PC-Blackbox-Agent" -ErrorAction Stop }
-    catch { [System.Windows.Forms.MessageBox]::Show("Nao consegui iniciar a tarefa: $($_.Exception.Message)", "PC-Blackbox", "OK", "Warning") | Out-Null }
+    catch { [System.Windows.Forms.MessageBox]::Show("Não consegui iniciar a tarefa: $($_.Exception.Message)", "PC-Blackbox", "OK", "Warning") | Out-Null }
     Update-TrayStatus -Force
 })
 $menuExit.Add_Click({

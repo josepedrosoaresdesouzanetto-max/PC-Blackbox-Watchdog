@@ -12,6 +12,6 @@ if (-not (Test-Path $script)) {
     if ($Root -eq "C:\PC-Blackbox" -and -not (Test-Path $Root)) { $Root = $PSScriptRoot }
 }
 
-Write-Host "Executando diagnostico manual dos ultimos $Days dias..."
+Write-Host "Executando diagnóstico manual dos últimos $Days dias..."
 & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $script -Root $Root -ManualDays $Days
-Write-Host "Relatorios em: $Root\reports"
+Write-Host "Relatórios em: $Root\reports"

@@ -35,7 +35,7 @@ if (-not (Test-IsAdmin) -and -not $SkipScheduledTasks) {
     throw "Execute install.ps1 como Administrador."
 }
 
-LogInstall "Instalacao/upgrade v$version iniciada. Origem: $sourceRoot"
+LogInstall "Instalação/upgrade v$version iniciada. Origem: $sourceRoot"
 $dirs = @(
     "app",
     "assets",
@@ -111,18 +111,18 @@ if (-not $SkipScheduledTasks) {
     try {
         Start-ScheduledTask -TaskName "PC-Blackbox-Agent" -ErrorAction Stop
         Start-ScheduledTask -TaskName "PC-Blackbox-Notifier" -ErrorAction SilentlyContinue
-        LogInstall "Agente e notificador iniciados apos instalacao/upgrade."
+        LogInstall "Agente e notificador iniciados após instalação/upgrade."
     }
     catch {
-        LogInstall "Aviso: nao consegui iniciar o agente automaticamente: $($_.Exception.Message)"
+        LogInstall "Aviso: não consegui iniciar o agente automaticamente: $($_.Exception.Message)"
     }
 }
 else {
-    LogInstall "Criacao de tarefas agendadas pulada por parametro de teste."
+    LogInstall "Criação de tarefas agendadas pulada por parâmetro de teste."
 }
 
 try {
-    if ($SkipStatusIcon) { throw "Olhinho pulado por parametro de teste." }
+    if ($SkipStatusIcon) { throw "Olhinho pulado por parâmetro de teste." }
     $startup = [Environment]::GetFolderPath("Startup")
     $shortcutPath = Join-Path $startup "PC-Blackbox Olhinho.lnk"
     $shortcutArgs = "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$InstallRoot\app\PCBlackbox.StatusIcon.ps1`" -Root `"$InstallRoot`""
@@ -139,7 +139,7 @@ try {
     LogInstall "Olhinho visual criado em Inicializar: $shortcutPath"
 }
 catch {
-    LogInstall "Aviso: nao consegui criar/iniciar o olhinho visual: $($_.Exception.Message)"
+    LogInstall "Aviso: não consegui criar/iniciar o olhinho visual: $($_.Exception.Message)"
 }
 
 try {
@@ -163,17 +163,17 @@ try {
     LogInstall "Atalhos profissionais criados em $shortcutsDir."
 }
 catch {
-    LogInstall "Aviso: nao consegui criar atalhos com icone: $($_.Exception.Message)"
+    LogInstall "Aviso: não consegui criar atalhos com ícone: $($_.Exception.Message)"
 }
 
 if (-not $SkipInitialDiagnostic) {
     & powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $InstallRoot "run-once-diagnostic.ps1") -Root $InstallRoot | Out-File $installLog -Append -Encoding UTF8
 }
 else {
-    LogInstall "Diagnostico inicial pulado por parametro de teste."
+    LogInstall "Diagnóstico inicial pulado por parâmetro de teste."
 }
-LogInstall "Instalacao/upgrade v$version concluida. Relatorios em $InstallRoot\reports."
-Write-Host "Instalacao/upgrade v$version concluida."
-Write-Host "Relatorios: $InstallRoot\reports"
-Write-Host "Logs continuos: $InstallRoot\logs\samples"
+LogInstall "Instalação/upgrade v$version concluída. Relatórios em $InstallRoot\reports."
+Write-Host "Instalação/upgrade v$version concluída."
+Write-Host "Relatórios: $InstallRoot\reports"
+Write-Host "Logs contínuos: $InstallRoot\logs\samples"
 Write-Host "Alerta urgente: $InstallRoot\ALERTA-URGENTE.txt"

@@ -13,7 +13,7 @@ function Get-CrashDumpSummary {
     catch { }
     [ordered]@{
         dump_files = @($items)
-        note = "Analise profunda de dump exige WinDbg. Este modulo lista metadados e cruza existencia de dump com BugCheck."
+        note = "Análise profunda de dump exige WinDbg. Este modulo lista metadados e cruza existencia de dump com BugCheck."
     }
 }
 

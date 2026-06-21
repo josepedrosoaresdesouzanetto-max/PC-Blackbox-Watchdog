@@ -12,7 +12,7 @@ function Get-ACPowerState {
         if (-not $battery) { return "Desktop/sem bateria detectada" }
         return @($battery | Select-Object Name, BatteryStatus, EstimatedChargeRemaining)
     }
-    catch { return "Estado AC/bateria nao disponivel" }
+    catch { return "Estado AC/bateria não disponível" }
 }
 
 function Get-PowerSnapshot {

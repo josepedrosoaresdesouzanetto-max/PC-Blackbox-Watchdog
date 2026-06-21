@@ -6,7 +6,7 @@ param(
 
 $reports = Get-ChildItem (Join-Path $Root "reports") -File -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
 if (-not $reports) {
-    Write-Host "Nenhum relatorio encontrado. Rode run-once-diagnostic.ps1 ou aguarde o Analyzer pos-boot."
+    Write-Host "Nenhum relatório encontrado. Rode run-once-diagnostic.ps1 ou aguarde o Analyzer pós-boot."
     exit 0
 }
 

@@ -6,7 +6,7 @@ Import-Module (Join-Path $PSScriptRoot "AlertManager.psm1") -Force -DisableNameC
 function New-BlackboxEventLogWatcher {
     <#
     Best-effort wrapper para System.Diagnostics.Eventing.Reader.EventLogWatcher.
-    O Agent usa polling otimizado como fallback porque ele e mais previsivel em
+    O Agent usa polling otimizado como fallback porque ele é mais previsível em
     PowerShell 5.1 e evita perder eventos se callbacks falharem.
     #>
     param(
@@ -66,7 +66,7 @@ function Invoke-EventAlerts {
                 -Title ("PC Blackbox: {0} ID {1}" -f $e.ProviderName, $e.Id) `
                 -Message (Get-AlertMessageForEvent -Event $e) `
                 -Evidence $e.Message `
-                -Recommendation "Salve seu trabalho e consulte o relatorio em C:\PC-Blackbox\reports." `
+                -Recommendation "Salve seu trabalho e consulte o relatório em C:\PC-Blackbox\reports." `
                 -Source $e.ProviderName `
                 -EventId $e.Id `
                 -Timestamp $e.TimeCreated `

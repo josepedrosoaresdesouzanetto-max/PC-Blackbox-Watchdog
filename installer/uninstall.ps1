@@ -9,7 +9,7 @@ function LogUninstall($msg) {
     "[{0}] {1}" -f (Get-Date), $msg | Out-File $log -Append -Encoding UTF8
 }
 
-LogUninstall "Remocao iniciada. Isto remove apenas tarefas e, se confirmado, arquivos do projeto."
+LogUninstall "Remoção iniciada. Isto remove apenas tarefas e, se confirmado, arquivos do projeto."
 foreach ($name in "PC-Blackbox-Agent","PC-Blackbox-PostBoot-Analyzer","PC-Blackbox-Notifier","PC-Blackbox-StatusIcon") {
     try {
         Unregister-ScheduledTask -TaskName $name -Confirm:$false -ErrorAction SilentlyContinue
@@ -28,11 +28,11 @@ catch {
     LogUninstall "Falha ao remover atalho do olhinho: $($_.Exception.Message)"
 }
 
-$answer = Read-Host "Deseja apagar tambem logs e relatorios em $InstallRoot? Digite APAGAR para confirmar"
+$answer = Read-Host "Deseja apagar também logs e relatórios em $InstallRoot? Digite APAGAR para confirmar"
 if ($answer -eq "APAGAR") {
     Remove-Item -Path $InstallRoot -Recurse -Force
     Write-Host "Arquivos removidos."
 } else {
-    LogUninstall "Usuario optou por manter logs e arquivos."
+    LogUninstall "Usuário optou por manter logs e arquivos."
     Write-Host "Tarefas removidas. Logs mantidos em $InstallRoot."
 }

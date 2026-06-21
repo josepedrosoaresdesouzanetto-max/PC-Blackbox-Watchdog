@@ -17,19 +17,19 @@ Set-ExecutionPolicy -Scope Process Bypass
 Get-ScheduledTask -TaskName "PC-Blackbox-*"
 ```
 
-## Rodar diagnostico manual
+## Rodar diagnóstico manual
 
 ```powershell
 C:\PC-Blackbox\run-once-diagnostic.ps1
 ```
 
-## Abrir relatorios
+## Abrir relatórios
 
 ```powershell
 C:\PC-Blackbox\src\PCBlackbox.Report.ps1
 ```
 
-## Ver ultimo alerta urgente
+## Ver último alerta urgente
 
 Abra:
 
@@ -37,7 +37,7 @@ Abra:
 C:\PC-Blackbox\ALERTA-URGENTE.txt
 ```
 
-## Saber se houve relatorio parcial antes da queda
+## Saber se houve relatório parcial antes da queda
 
 Veja:
 
@@ -45,4 +45,4 @@ Veja:
 C:\PC-Blackbox\reports\ALERTA-CRITICO-*.txt
 ```
 
-Se nao existir, pode ser porque nao houve sinal detectavel ou porque o desligamento foi seco instantaneo.
+Se não existir, pode ser porque não houve sinal detectável ou porque o desligamento foi seco instantâneo.

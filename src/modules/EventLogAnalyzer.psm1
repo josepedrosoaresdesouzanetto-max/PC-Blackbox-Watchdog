@@ -73,16 +73,16 @@ function Get-EventRisk {
 function Get-AlertMessageForEvent {
     param($Event)
     if ($Event.ProviderName -eq "Microsoft-Windows-WHEA-Logger" -and $Event.Id -in 18,47) {
-        return "ALERTA CRITICO: erro WHEA detectado. Isso pode indicar instabilidade de hardware, CPU, RAM, placa-mae, PCIe ou energia. Salve seu trabalho agora e evite continuar forcando o PC."
+        return "ALERTA CRÍTICO: erro WHEA detectado. Isso pode indicar instabilidade de hardware, CPU, RAM, placa-mãe, PCIe ou energia. Salve seu trabalho agora e evite continuar forçando o PC."
     }
     if ($Event.ProviderName -eq "Disk" -or $Event.ProviderName -eq "Ntfs") {
-        return "ALERTA CRITICO: erro grave de disco detectado. Faca backup dos arquivos importantes o quanto antes. Evite desligamentos forcados."
+        return "ALERTA CRÍTICO: erro grave de disco detectado. Faça backup dos arquivos importantes o quanto antes. Evite desligamentos forçados."
     }
     if ($Event.ProviderName -eq "Display" -or $Event.Message -match "TDR|nvlddmkm|amdkmdag|amdwddmg|LiveKernelEvent") {
-        return "ALERTA DE ALTO RISCO: falha no driver de video detectada. Pode causar tela preta, travamento ou reinicializacao. Salve seu trabalho agora."
+        return "ALERTA DE ALTO RISCO: falha no driver de vídeo detectada. Pode causar tela preta, travamento ou reinicialização. Salve seu trabalho agora."
     }
     if ($Event.ProviderName -eq "Microsoft-Windows-Kernel-Power" -and $Event.Id -eq 41) {
-        return "AVISO: o Windows registrou desligamento inesperado anteriormente. Isso nao identifica a causa sozinho, mas indica que o sistema nao encerrou corretamente."
+        return "AVISO: o Windows registrou desligamento inesperado anteriormente. Isso não identifica a causa sozinho, mas indica que o sistema não encerrou corretamente."
     }
     return "Alerta de estabilidade detectado pelo PC-Blackbox-Watchdog."
 }
@@ -92,38 +92,38 @@ function Invoke-DiagnosisScoring {
     $evidence = New-Object System.Collections.Generic.List[string]
     $diagnosis = "Dados insuficientes para concluir"
     $confidence = 30
-    $risk = "medio"
-    $what = "Nenhum padrao unico e definitivo foi identificado."
+    $risk = "médio"
+    $what = "Nenhum padrão único e definitivo foi identificado."
 
     if ($Events | Where-Object { $_.ProviderName -eq "Microsoft-Windows-WHEA-Logger" -and $_.Id -eq 18 }) {
-        $diagnosis = "hardware critico ou instabilidade eletrica"
-        $confidence = 85; $risk = "critico"; $what = "Erro WHEA critico perto da falha."
+        $diagnosis = "hardware crítico ou instabilidade elétrica"
+        $confidence = 85; $risk = "critico"; $what = "Erro WHEA crítico perto da falha."
         $evidence.Add("WHEA-Logger 18 perto da falha.")
     }
     elseif ($Events | Where-Object { $_.LogName -eq "System" -and $_.Id -eq 1001 }) {
-        $diagnosis = "tela azul ou falha critica de driver/sistema/RAM"
+        $diagnosis = "tela azul ou falha crítica de driver/sistema/RAM"
         $confidence = 80; $risk = "alto"; $what = "BugCheck 1001 encontrado."
         $evidence.Add("BugCheck 1001 indica BSOD registrada.")
     }
     elseif ($Events | Where-Object { $_.ProviderName -eq "Display" -and $_.Id -eq 4101 }) {
-        $diagnosis = "possivel GPU ou driver de video"
+        $diagnosis = "possível GPU ou driver de vídeo"
         $confidence = 65; $risk = "alto"; $what = "Evento Display 4101 encontrado."
         $evidence.Add("Display 4101/TDR perto da falha.")
     }
     elseif ($Events | Where-Object { ($_.ProviderName -in @("Disk","Ntfs","storahci","stornvme")) -and ($_.Id -in 7,51,55,129,153) }) {
-        $diagnosis = "possivel SSD/HD/controladora/cabo/driver de armazenamento"
+        $diagnosis = "possível SSD/HD/controladora/cabo/driver de armazenamento"
         $confidence = 65; $risk = "alto"; $what = "Eventos de armazenamento foram encontrados."
         $evidence.Add("Eventos de disco/storage perto da falha.")
     }
     elseif (($Events | Where-Object { $_.ProviderName -eq "Microsoft-Windows-Kernel-Power" -and $_.Id -eq 41 }) -and -not ($Events | Where-Object { $_.ProviderName -eq "Microsoft-Windows-WHEA-Logger" -or $_.Id -eq 1001 })) {
-        $diagnosis = "desligamento bruto, energia, fonte, tomada, temperatura, placa-mae ou travamento seco"
-        $confidence = 55; $risk = "medio"; $what = "Kernel-Power 41 sem BugCheck/WHEA."
-        $evidence.Add("Kernel-Power 41 prova desligamento incorreto, mas nao aponta causa sozinho.")
+        $diagnosis = "desligamento bruto, energia, fonte, tomada, temperatura, placa-mãe ou travamento seco"
+        $confidence = 55; $risk = "médio"; $what = "Kernel-Power 41 sem BugCheck/WHEA."
+        $evidence.Add("Kernel-Power 41 prova desligamento incorreto, mas não aponta causa sozinho.")
     }
     elseif ($State.heartbeat_missing) {
-        $diagnosis = "possivel perda fisica de energia ou travamento seco sem tempo de registro"
-        $confidence = 55; $risk = "medio"; $what = "Heartbeat interrompido sem evento conclusivo."
-        $evidence.Add("Ultimo heartbeat parou antes do boot atual.")
+        $diagnosis = "possível perda física de energia ou travamento seco sem tempo de registro"
+        $confidence = 55; $risk = "médio"; $what = "Heartbeat interrompido sem evento conclusivo."
+        $evidence.Add("Último heartbeat parou antes do boot atual.")
     }
 
     [ordered]@{
@@ -134,17 +134,17 @@ function Invoke-DiagnosisScoring {
         diagnosis = $diagnosis
         confidence_score = $confidence
         risk_level = $risk
-        explanation = "Este diagnostico cruza logs continuos, eventos do Windows e estado pos-boot. Ele aponta uma causa provavel, nao certeza absoluta."
+        explanation = "Este diagnóstico cruza logs contínuos, eventos do Windows e estado pós-boot. Ele aponta uma causa provável, não certeza absoluta."
         evidence = $evidence
         last_sample_timestamp_before_crash = $State.last_sample_timestamp_before_crash
         seconds_between_last_sample_and_boot_gap = $State.seconds_between_last_sample_and_boot_gap
         partial_alert_report_path = $State.partial_alert_report_path
         recommended_tests = @(
             "Se Kernel-Power 41 aparecer sozinho: testar tomada direta, cabo, filtro de linha, fonte e carga pesada.",
-            "Se WHEA aparecer: testar RAM/CPU/placa-mae/PCIe/energia e temperaturas.",
+            "Se WHEA aparecer: testar RAM/CPU/placa-mãe/PCIe/energia e temperaturas.",
             "Se BugCheck aparecer: analisar minidump com WinDbg.",
             "Se Display/LiveKernelEvent aparecer: investigar driver e temperatura da GPU.",
-            "Se Disk/Ntfs/storage aparecer: fazer backup e verificar saude do disco."
+            "Se Disk/Ntfs/storage aparecer: fazer backup e verificar saúde do disco."
         )
     }
 }

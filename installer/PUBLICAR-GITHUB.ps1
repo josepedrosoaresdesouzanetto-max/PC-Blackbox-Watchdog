@@ -8,14 +8,14 @@ $ErrorActionPreference = "Stop"
 $repoVisibility = if ($Public) { "--public" } else { "--private" }
 
 if (-not (Get-Command gh -ErrorAction SilentlyContinue)) {
-    throw "GitHub CLI nao encontrado. Instale com: winget install --id GitHub.cli"
+    throw "GitHub CLI não encontrado. Instale com: winget install --id GitHub.cli"
 }
 
 $auth = gh auth status 2>&1
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "Voce precisa logar no GitHub primeiro:"
+    Write-Host "Você precisa entrar no GitHub primeiro:"
     Write-Host "gh auth login"
-    throw "GitHub CLI nao autenticado."
+    throw "GitHub CLI não autenticado."
 }
 
 if (-not (Test-Path ".git")) {
@@ -26,5 +26,4 @@ if (-not (Test-Path ".git")) {
 }
 
 gh repo create $RepoName $repoVisibility --source . --remote origin --push
-Write-Host "Repositorio criado e enviado para o GitHub: $RepoName"
-
+Write-Host "Repositório criado e enviado para o GitHub: $RepoName"
