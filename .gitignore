@@ -1,0 +1,15 @@
+# Runtime data
+logs/
+reports/
+data/
+*.log
+ALERTA-URGENTE.txt
+
+# Windows noise
+Thumbs.db
+Desktop.ini
+
+# Local packages
+*.zip
+*.7z
+
