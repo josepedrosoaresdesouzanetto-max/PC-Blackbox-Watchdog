@@ -8,6 +8,13 @@ ALERTA-URGENTE.txt
 # Windows noise
 Thumbs.db
 Desktop.ini
+.DS_Store
+
+# Editor files
+.vscode/
+.idea/
+*.tmp
+*.bak
 
 # Local packages
 *.zip
